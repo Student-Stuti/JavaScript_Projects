@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Performance Report</title>
+    <style>
+        /* Styling for the table */
+        table {
+            width: 60%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 18px;
+            text-align: left;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            /* Green background for table headers */
+            color: white;
+        }
+
+        .fail {
+            background-color: #f44336;
+            /* Red background for failing students */
+            color: white;
+        }
+
+        .pass {
+            background-color: #8BC34A;
+            /* Green background for passing students */
+            color: white;
+        }
+    </style>
+    <h2>Class Performance Report</h2>
+
+    <!-- Table structure to display student performance -->
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Math</th>
+                <th>Science</th>
+                <th>English</th>
+                <th>Total</th>
+                <th>Average</th>
+                <th>Grade</th>
+            </tr>
+        </thead>
+        <tbody id="reportTable"></tbody> <!-- This will be filled dynamically using JavaScript -->
+    </table>
+</head>
+
+<body>
+
+    <script>
+        // Sample student data in JSON format
+        const students = [
+            { name: "Alice", scores: { math: 85, science: 90, english: 78 } },
+            { name: "Bob", scores: { math: 60, science: 55, english: 65 } },
+            { name: "Charlie", scores: { math: 95, science: 98, english: 92 } },
+            { name: "David", scores: { math: 45, science: 50, english: 40 } }
+        ];
+
+        function calculateGrade(avg) {
+            //calculate the grade 
+            if (avg >= 90) return "A";
+            if (avg >= 80) return "B";
+            if (avg >= 70) return "C";
+            if (avg >= 60) return "D";
+            return "F";
+        }
+
+        function genrateTable() {
+
+            //  let tableBody = document.getElementById("reportTable"); // Get table body
+            //  let tableBody = document.querySelector("#reportTable");
+            let tableBody = document.querySelector("table tbody"); // Selects the <tbody> inside <table>
+
+            console.log(tableBody);
+
+            students.forEach(students => {
+                let marks = students.scores.math + students.scores.science + students.scores.english;
+                let avg = (marks / 3).toFixed(2);
+                let grade = calculateGrade(avg);
+
+                // Create a table row with student details
+                let row = `<tr class="${grade === 'F' ? 'fail' : 'pass'}">  
+                    <td>${students.name}</td>
+                    <td>${students.scores.math}</td>
+                    <td>${students.scores.science}</td>
+                    <td>${students.scores.english}</td>
+                    <td>${marks}</td>
+                    <td>${avg}</td>
+                    <td>${grade}</td>
+                </tr>`;
+
+                // Append the row to the table
+                tableBody.innerHTML += row;
+            })
+        }
+
+
+        genrateTable();
+
+
+    </script>
+</body>
+
+</html>
